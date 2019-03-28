@@ -17,15 +17,54 @@ using namespace std;
 
 class RLEIterator {
 public:
-    RLEIterator(vector<int> A) {
+    vector<int> arrayList;
+    long last_pos = 0;
+    long cur_pos = 0;
+    long total_size = 0;
 
+    RLEIterator(vector<int> A) {
+        arrayList = A;
+        int length = A.size();
+        for(int i = 0;i<length;i+=2)
+        {
+            total_size += A[i];
+        }
     }
 
     int next(int n) {
+        last_pos = cur_pos;
+        cur_pos += n;
+        if(last_pos+n>total_size)
+            return -1;
 
-		return 0;
+        long now_pos = last_pos+n;
+
+        for(int i = 0;i<arrayList.size();i+=2)
+        {
+            if(now_pos-arrayList[i]<=0)
+            {
+                return arrayList[i+1];
+            }
+            else
+            {
+                now_pos-=arrayList[i];
+            }
+        }
+        return -1;
     }
 };
+
+//class RLEIterator {
+//public:
+//    RLEIterator(vector<int> A) {
+//
+//    }
+//
+//    int next(int n) {
+//
+//		return 0;
+//    }
+//};
 
 int main() 
 {
